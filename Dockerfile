@@ -2,12 +2,12 @@
 FROM python:3.10.5-alpine
 
 # Copiar la aplicación fgapi a la carpeta de trabajo
-COPY ./fgapi /usr/src/app/fibergis.v3
+COPY ./fgapi /usr/src/app/fgapi
 
-COPY ./requirements.txt /usr/src/app/fibergis.v3/requirements.txt
+COPY ./requirements.txt /usr/src/app/fgapi/requirements.txt
 
 # Establecer la carpeta de trabajo
-WORKDIR /usr/src/app/fibergis.v3
+WORKDIR /usr/src/app/fgapi
 
 # Instalar dependencias de compilación necesarias para GeoAlchemy2
 RUN apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev
