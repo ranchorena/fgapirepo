@@ -30,8 +30,7 @@ pipeline {
                     sh 'scp C:/Code/FiberGIS_FGapi/Dockerfile geouser@192.168.1.135:/usr/src/app/fibergis_fgapi/'
                     sh 'scp -r C:/Code/FiberGIS_FGapi/fgapi geouser@192.168.1.135:/usr/src/app/fibergis_fgapi/'
                     //bat 'robocopy C:/Code/FiberGIS_FGapi/fgapi geouser@192.168.1.135:/usr/src/app/fibergis_fgapi/fgapi /xf *.* /s'
-                    sh 'ssh geouser@192.168.1.135 cd /usr/src/app/fibergis_fgapi/fgapi'
-                    sh 'ssh geouser@192.168.1.135 ls -l'
+                    sh 'ssh geouser@192.168.1.135 "cd /usr/src/app/fibergis_fgapi/fgapi && ls -la"'
                 }
             }
         }        
