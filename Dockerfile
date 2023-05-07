@@ -13,6 +13,8 @@ WORKDIR /usr/src/app/fgapi
 RUN apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev
 
 # Instalar las dependencias
+RUN apt-get update && apt-get install -y libpq-dev
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Desinstalar dependencias de compilación
