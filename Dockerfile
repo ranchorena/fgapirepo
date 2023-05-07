@@ -1,5 +1,8 @@
 # Partir de la imagen de Alpine de Python 3.10.5
-FROM python:3.10.5-alpine
+#FROM python:3.10.5-alpine
+FROM alpine:3.14
+
+RUN apk add --no-cache python3=3.10.5-r0
 
 # Copiar la aplicación fgapi a la carpeta de trabajo
 COPY ./fgapi /usr/src/app/fgapi
