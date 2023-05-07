@@ -15,6 +15,14 @@ pipeline {
                 }
             }
         }
+        stage('login Server 135'){
+            steps {
+                sshagent(credentials:['SSH_Server_135_geouser']){
+                    sh 'ssh -o StrictHostKeyChecking=no geouser@192.168.1.135 uptime "whoami"'
+                }
+                echo "success login"
+            }
+        }          
         /*stage('Build') {
             steps {
                 dir('C:\\Code\\FiberGIS_FGapi\\fgapi') {
