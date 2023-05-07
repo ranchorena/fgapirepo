@@ -38,11 +38,16 @@ pipeline {
         stage('Build Docker image') {
             steps {
                 sshagent(['SSH_Server_135_geouser']) {
-                    //sh 'ssh geouser@192.168.1.135 "cd /usr/src/app/fibergis_fgapi && docker build -t fgapi:qa --no-cache /usr/src/app/fibergis_fgapi"'
                     sh 'ssh geouser@192.168.1.135 "cd /usr/src/app/fibergis_fgapi && docker build -t fgapi:qa --no-cache /usr/src/app/fibergis_fgapi"'             
                 }
             }
         }      
-
+        stage('Run Docker container') {
+            steps {
+                sshagent(['SSH_Server_135_geouser']) {
+                    sh 'ssh geouser@192.168.1.135 "docker run -p 6062:6062 --name fgapi fgapi:qa"'
+                }
+            }
+        } 
     }   
 }
