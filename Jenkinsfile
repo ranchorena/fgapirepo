@@ -30,13 +30,7 @@ pipeline {
                     sh 'scp C:/Code/FiberGIS_FGapi/Dockerfile geouser@192.168.1.135:/usr/src/app/fibergis_fgapi/'
                     sh 'scp -r C:/Code/FiberGIS_FGapi/fgapi geouser@192.168.1.135:/usr/src/app/fibergis_fgapi/'
                     //bat 'robocopy C:/Code/FiberGIS_FGapi/fgapi geouser@192.168.1.135:/usr/src/app/fibergis_fgapi/fgapi /xf *.* /s'
-                    //sh 'ssh geouser@192.168.1.135 "cd /usr/src/app/fibergis_fgapi/fgapi && rm -rf __pycache__ && rm -rf .vscode && rm -rf .git && ls -la"'
-                    def commandStatus = sh(script: 'ssh geouser@192.168.1.135 "cd /usr/src/app/fibergis_fgapi/fgapi && rm -rf __pycache__ && rm -rf .vscode && rm -rf .git && ls -la"', returnStatus: true)
-                    if (commandStatus != 0) {
-                        //error "El comando falló con el código de retorno ${commandStatus}"
-                        error "Error en Transfer files to remote server"
-                        currentBuild.result = 'FAILURE'
-                    }
+                    sh 'ssh geouser@192.168.1.135 "cd /usr/src/app/fibergis_fgapi/fgapi && rm -rf __pycache__ && rm -rf .vscode && rm -rf .git && ls -la"'
                 }
             }
         }        
@@ -44,11 +38,7 @@ pipeline {
             steps {
                 sshagent(['SSH_Server_135_geouser']) {
                     //sh 'ssh geouser@192.168.1.135 "cd /usr/src/app/fibergis_fgapi && docker build -t fgapi:qa --no-cache /usr/src/app/fibergis_fgapi"'
-                    def commandStatus = sh(script: 'ssh geouser@192.168.1.135 "cd /usr/src/app/fibergis_fgapi && docker build -t fgapi:qa --no-cache /usr/src/app/fibergis_fgapi"', returnStatus: true)
-                    if (commandStatus != 0) {
-                        error "Error en Build Docker image"
-                        currentBuild.result = 'FAILURE'
-                    }                    
+                    sh 'ssh geouser@192.168.1.135 "cd /usr/src/app/fibergis_fgapi && docker build -t fgapi:qa --no-cache /usr/src/app/fibergis_fgapi"'             
                 }
             }
         }      
