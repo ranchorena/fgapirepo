@@ -15,14 +15,23 @@ pipeline {
                 }
             }
         }
-        stage('login Server 135'){
+        /*stage('login Server 135'){
             steps {
                 sshagent(credentials:['SSH_Server_135_geouser']){
                     sh 'ssh -o StrictHostKeyChecking=no geouser@192.168.1.135 uptime "whoami"'
                 }
                 echo "success login"
             }
-        }          
+        }*/
+        stage('Transfer files to remote server') {
+            steps {
+                sshagent(['SSH_Server_135_geouser']) {
+                    //sh 'ssh user@192.168.1.135 mkdir -p /urs/src/app/fibergis_fgapi/fgapi'
+                    sh 'scp C:/Code/FiberGIS_FGapi/Dockerfile geouser@192.168.1.135:/urs/src/app/fibergis_fgapi/'
+                    sh 'scp -r C:/Code/FiberGIS_FGapi/fgapi geouser@192.168.1.135:/urs/src/app/fibergis_fgapi/fgapi/'
+                }
+            }
+        }        
         /*stage('Build') {
             steps {
                 dir('C:\\Code\\FiberGIS_FGapi\\fgapi') {
