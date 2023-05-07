@@ -1,5 +1,6 @@
 # Partir de la imagen de Alpine de Python 3.10.5
-FROM python:3.10.5-alpine
+#FROM python:3.10.5-alpine
+FROM python:3.10.11-alpine
 #FROM alpine:3.14
 
 #RUN apk add --no-cache python3=3.10.5-r0
