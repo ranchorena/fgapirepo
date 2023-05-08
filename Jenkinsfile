@@ -52,7 +52,7 @@ pipeline {
     } 
     post {
         success {
-            emailext body: 'El pipeline de FiberGIS_FGapi se ha completado con exito.\n\nÚltimo mensaje de commit: ${env.LAST_COMMIT_MESSAGE}\n\n${env.LAST_COMMIT_HASH}',  
+            emailext body: "El pipeline de FiberGIS_FGapi se ha completado con exito.\n\nUltimo mensaje de commit: ${env.LAST_COMMIT_MESSAGE}\n\n${env.LAST_COMMIT_HASH}",  
                      subject: 'FiberGIS_FGapi - Pipeline Exitoso',
                      to: 'Raul.Anchorena@geosystems.com.ar;Agustin.David@geosystems.com.ar'
         }
