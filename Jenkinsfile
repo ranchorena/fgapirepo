@@ -1,12 +1,5 @@
 pipeline {
-    agent any
-    /*environment {
-        //IIS_SERVER = '192.168.1.52'
-        //IIS_SITE_NAME = 'web.fibergis'
-        //IIS_USER = 'gystems\\Jenkins'
-        //IIS_PASSWORD = ''
-        //GITLAB_API_TOKEN = credentials('Bitbucker_user_pwd')
-    }*/    
+    agent any 
     stages {
         stage('Checkout') {
             steps {
@@ -15,14 +8,6 @@ pipeline {
                 }
             }
         }
-        /*stage('login Server 135'){
-            steps {
-                sshagent(credentials:['SSH_Server_135_geouser']){
-                    sh 'ssh -o StrictHostKeyChecking=no geouser@192.168.1.135 uptime "whoami"'
-                }
-                echo "success login"
-            }
-        }*/
         stage('Transfer files to remote server') {
             steps {
                 sshagent(['SSH_Server_135_geouser']) {
@@ -50,5 +35,22 @@ pipeline {
                 }
             }
         } 
-    }   
+    } 
+    post {
+        /*always {
+            emailext body: 'El pipeline de FiberGIS se ha completado.', 
+                     subject: 'Pipeline completado',
+                     to: 'Raul.Anchorena@geosystems.com.ar;Agustin.David@geosystems.com.ar'
+        }*/
+        success {
+            emailext body: 'El pipeline de FiberGIS_FGapi se ha completado con exito.', 
+                     subject: 'Pipeline exitoso',
+                     to: 'Raul.Anchorena@geosystems.com.ar;Agustin.David@geosystems.com.ar'
+        }
+        failure {
+            emailext body: 'El pipeline de FiberGIS_FGapi ha fallado.', 
+                     subject: 'Pipeline fallido',
+                     to: 'Raul.Anchorena@geosystems.com.ar;Agustin.David@geosystems.com.ar'
+        }
+    }      
 }
