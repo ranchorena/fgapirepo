@@ -17,6 +17,8 @@ WORKDIR /usr/src/app/fgapi
 RUN apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev
 
 # Instalar las dependencias
+RUN apk add --no-cache geos-dev
+
 RUN apk add --no-cache --update postgresql-dev
 
 RUN pip install --no-cache-dir -r requirements.txt
