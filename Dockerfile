@@ -19,7 +19,7 @@ RUN apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev
 # Instalar las dependencias
 RUN apk add --no-cache geos-dev
 
-RUN apk add --no-cache --update postgresql-dev
+#RUN apk add --no-cache --update postgresql-dev
 
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -33,4 +33,4 @@ EXPOSE 6062
 RUN apk add --no-cache curl
 
 # Ejecutar el archivo server.py
-ENTRYPOINT [ "python", "server.py", "--host", "0.0.0.0", "--port", "6062" ]
+# ENTRYPOINT [ "python", "server.py", "--host", "0.0.0.0", "--port", "6062" ]
