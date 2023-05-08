@@ -10,16 +10,18 @@ pipeline {
                 }
             }
         }
-        stage('Get Last Commit Message') {
-            steps {
-                script {
-                    def commit_hash = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-                    def commit_message = sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim()
-                    env.LAST_COMMIT_HASH = commit_hash
-                    env.LAST_COMMIT_MESSAGE = commit_message
-                }
-            }
-        }        
+        // stage('Get Last Commit Message') {
+        //     steps {
+        //         dir('C:\\Code\\FiberGIS_FGapi\\fgapi') {
+        //             script {
+        //                 def commit_hash = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+        //                 def commit_message = sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim()
+        //                 env.LAST_COMMIT_HASH = commit_hash
+        //                 env.LAST_COMMIT_MESSAGE = commit_message
+        //             }
+        //         }
+        //     }
+        // }        
         stage('Transfer files to remote server') {
             steps {
                 sshagent(['SSH_Server_135_geouser']) {
