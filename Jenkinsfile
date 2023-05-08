@@ -46,9 +46,7 @@ pipeline {
             steps {
                 sshagent(['SSH_Server_135_geouser']) {
                     // sh 'ssh geouser@192.168.1.135 "docker run -p 6062:6062 --name fgapi fgapi:qa"'
-                    // sh 'ssh geouser@192.168.1.135 "docker ps -aqf name=fgapi | xargs docker inspect -f \'{{.State.Running}}\' | grep -q true && docker rm -f fgapi || true && docker run -p 6062:6062 --name fgapi fgapi:qa"'
-                    // sh 'ssh geouser@192.168.1.135 "if docker ps -a | grep fgapi >/dev/null 2>&1; then docker stop fgapi && docker rm fgapi; fi && docker run -p 6062:6062 --name fgapi fgapi:qa"'
-                    sh 'ssh geouser@192.168.1.135 "if docker ps -a | grep fgapi >/dev/null 2>&1; then docker stop fgapi && docker rm fgapi; fi && docker run -p 6062:6062 --name fgapi fgapi:qa"'
+                    sh 'ssh geouser@192.168.1.135 "if docker ps -a | grep fgapi >/dev/null 2>&1; then docker stop fgapi && docker rm fgapi; fi && docker run -d -p 6062:6062 --name fgapi fgapi:qa"'
                 }
             }
         } 
