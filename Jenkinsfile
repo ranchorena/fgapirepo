@@ -15,14 +15,7 @@ pipeline {
                     }                    
                 }
             }
-        }
-        // stage('Get Last Commit Message') {
-        //     steps {
-        //         dir('C:\\Code\\FiberGIS_FGapi\\fgapi') {
-
-        //         }
-        //     }
-        // }        
+        }    
         stage('Transfer files to remote server') {
             steps {
                 sshagent(['SSH_Server_135_geouser']) {
