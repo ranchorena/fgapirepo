@@ -45,7 +45,7 @@ pipeline {
         stage('Run Docker container') {
             steps {
                 sshagent(['SSH_Server_135_geouser']) {
-                    sh 'ssh geouser@192.168.1.135 "docker frm fgapi && docker run -p 6062:6062 --name fgapi fgapi:qa"'
+                    sh 'ssh geouser@192.168.1.135 "docker rm fgapi && docker run -p 6062:6062 --name fgapi fgapi:qa"'
                 }
             }
         } 
