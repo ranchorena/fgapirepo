@@ -31,24 +31,35 @@ pipeline {
         stage('Build Docker image') {
             steps {
                 sshagent(['SSH_Server_135_geouser']) {
-                    sh 'ssh geouser@192.168.1.135 "cd /usr/src/app/fibergis_fgapi && docker build -t fgapi:qa --no-cache /usr/src/app/fibergis_fgapi"'             
+                    sh '''
+                        ssh geouser@192.168.1.135 "
+                            cd /usr/src/app/fibergis_fgapi && 
+                            docker image rm -f fgapi:qa || true && 
+                            docker build -t fgapi:qa --no-cache /usr/src/app/fibergis_fgapi
+                        "
+                    '''             
                 }
             }
         }      
         stage('Run Docker container') {
             steps {
                 sshagent(['SSH_Server_135_geouser']) {
-                    // sh 'ssh geouser@192.168.1.135 "docker run -p 6062:6062 --name fgapi fgapi:qa"'
-                    sh 'ssh geouser@192.168.1.135 "if docker ps -a | grep fgapi >/dev/null 2>&1; then docker stop fgapi && docker rm fgapi; fi && docker run -d -p 6062:6062 --name fgapi fgapi:qa"'
+                    sh '''
+                        ssh geouser@192.168.1.135 "
+                            if docker ps -a | grep fgapi >/dev/null 2>&1; then docker stop fgapi && 
+                            docker rm fgapi; fi && 
+                            docker run -d -p 6062:6062 --name fgapi fgapi:qa
+                        "
+                    '''
                 }
             }
         } 
     } 
     post {
         success {
-            emailext body: "El pipeline de FiberGIS_FGapi se ha completado con exito.\n\nUltimo mensaje de commit: ${env.LAST_COMMIT_MESSAGE}\n\n${env.LAST_COMMIT_HASH}",  
+            emailext body: "El pipeline de FiberGIS_FGapi se ha completado con exito.\n\nUltimo mensaje de commit: ${env.LAST_COMMIT_MESSAGE}\n\nCommit Id: ${env.LAST_COMMIT_HASH}.\n\nAPI Gestion (fgapi)\n\nhttp://192.168.1.135:6062",  
                      subject: 'FiberGIS_FGapi - Pipeline Exitoso',
-                     to: 'Raul.Anchorena@geosystems.com.ar;Agustin.David@geosystems.com.ar'
+                     to: 'Raul.Anchorena@geosystems.com.ar'
         }
         failure {
             emailext body: 'El pipeline de FiberGIS_FGapi ha fallado.', 
