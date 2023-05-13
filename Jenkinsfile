@@ -34,6 +34,8 @@ pipeline {
                     sh '''
                         ssh geouser@192.168.1.135 "
                             cd /usr/src/app/fibergis_fgapi && 
+                            if docker ps -a | grep fgapi >/dev/null 2>&1; then docker stop fgapi && 
+                            docker rm fgapi; fi &&                            
                             docker image rm -f fgapi:qa || true && 
                             docker build -t fgapi:qa --no-cache /usr/src/app/fibergis_fgapi
                         "
@@ -45,9 +47,7 @@ pipeline {
             steps {
                 sshagent(['SSH_Server_135_geouser']) {
                     sh '''
-                        ssh geouser@192.168.1.135 "
-                            if docker ps -a | grep fgapi >/dev/null 2>&1; then docker stop fgapi && 
-                            docker rm fgapi; fi && 
+                        ssh geouser@192.168.1.135 " 
                             docker run -d -p 6062:6062 --name fgapi fgapi:qa
                         "
                     '''
