@@ -57,13 +57,23 @@ pipeline {
     } 
     post {
         success {
-            emailext body: "El pipeline de FiberGIS_FGapi se ha completado con exito.\n\nUltimo mensaje de commit: ${env.LAST_COMMIT_MESSAGE}\n\nCommit Id: ${env.LAST_COMMIT_HASH}.\n\nAPI Gestion (fgapi)\nhttp://192.168.1.135:6062",  
-                     subject: 'FiberGIS_FGapi - Pipeline Exitoso',
+            emailext body: "La subida de FiberGIS_FGapi se ha completado con exito.\n\n" +
+                           "Ultimo mensaje de commit: ${env.LAST_COMMIT_MESSAGE}\n\n" +
+                           "Commit Id: ${env.LAST_COMMIT_HASH}.\n\n" +
+                           "API Gestion (fgapi)\n" +
+                           "http://192.168.1.135:6062\n\n" +
+                           "Job Name: ${env.JOB_NAME}\n" +
+                           "Build: ${env.BUILD_NUMBER}\n" +
+                           "Console output: ${env.BUILD_URL}",
+                     subject: 'FiberGIS_FGapi - Subida Exitosa',
                      to: 'Raul.Anchorena@geosystems.com.ar;Agustin.David@geosystems.com.ar'
         }
         failure {
-            emailext body: 'El pipeline de FiberGIS_FGapi ha fallado.', 
-                     subject: 'FiberGIS_FGapi - Pipeline Fallido - ERROR',
+            emailext body: "La subida de FiberGIS_FGapi ha fallado.\n\n" +
+                           "Job Name: ${env.JOB_NAME}\n" +
+                           "Build: ${env.BUILD_NUMBER}\n" +
+                           "Console output: ${env.BUILD_URL}",             
+                     subject: 'FiberGIS_FGapi - La subida ha Fallado - ERROR',
                      to: 'Raul.Anchorena@geosystems.com.ar;Agustin.David@geosystems.com.ar'
         }
     }      
