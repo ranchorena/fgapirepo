@@ -48,7 +48,7 @@ pipeline {
                 sshagent(['SSH_Server_135_geouser']) {
                     sh '''
                         ssh geouser@192.168.1.135 " 
-                            docker run -d -p 6062:6062 --name fgapi fgapi:qa
+                            docker run -d --restart=always -p 6062:6062 --name fgapi fgapi:qa
                         "
                     '''
                 }
