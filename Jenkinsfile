@@ -20,11 +20,10 @@ pipeline {
             steps {
                 dir('C:\\Code\\FiberGIS_FGapi\\fgapi') {
                     withSonarQubeEnv('sonarqubeserver') {
-                        script {
-                            def scannerHome = tool 'sonarscanner'
-                            withSonarQubeEnv(credentialsId: 'sonarqube') {
-                                sh "${scannerHome}/bin/sonar-scanner -DprojectKey=FiberGIS_FGapi"
-                            }
+                    script {
+                        def scannerHome = tool 'sonarscanner'
+                        withSonarQubeEnv(credentialsId: 'sonarqube') {
+                            bat "${scannerHome}\\bin\\sonar-scanner.bat -DprojectKey=FiberGIS_FGapi"
                         }
                     }
                 }
