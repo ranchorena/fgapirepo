@@ -23,7 +23,7 @@ pipeline {
                         script {
                             def scannerHome = tool 'sonarscanner'
                             withSonarQubeEnv(credentialsId: 'sonarqube') {
-                                bat "${scannerHome}\\bin\\sonar-scanner.bat -DprojectKey=FiberGIS_FGapi"
+                                bat "${scannerHome}\\bin\\sonar-scanner.bat -X -Dsonar.projectKey=FiberGIS_FGapi"
                             }
                         }
                     }
