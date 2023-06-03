@@ -15,8 +15,22 @@ pipeline {
                     }                    
                 }
             }
-        }    
-        stage('Transfer files to remote server') {
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                dir('C:\\Code\\FiberGIS_FGapi\\fgapi') {
+                    withSonarQubeEnv('sonarqubeserver') {
+                        script {
+                            def scannerHome = tool 'sonarscanner'
+                            withSonarQubeEnv(credentialsId: 'sonarqube') {
+                                sh "${scannerHome}/bin/sonar-scanner -DprojectKey=FiberGIS_FGapi"
+                            }
+                        }
+                    }
+                }
+            }
+        }            
+        /*stage('Transfer files to remote server') {
             steps {
                 sshagent(['SSH_Server_135_geouser']) {
                     //sh 'ssh user@192.168.1.135 mkdir -p /urs/src/app/fibergis_fgapi/fgapi'
@@ -53,9 +67,9 @@ pipeline {
                     '''
                 }
             }
-        } 
+        } */
     } 
-    post {
+    /*post {
         success {
             emailext body: "La subida de FiberGIS_FGapi se ha completado con exito.\n\n" +
                            "Ultimo mensaje de commit: ${env.LAST_COMMIT_MESSAGE}\n\n" +
@@ -76,5 +90,5 @@ pipeline {
                      subject: 'FiberGIS_FGapi - La subida ha Fallado - ERROR',
                      to: 'Raul.Anchorena@geosystems.com.ar;Agustin.David@geosystems.com.ar'
         }
-    }      
+    }*/    
 }
