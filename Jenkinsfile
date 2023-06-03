@@ -23,7 +23,7 @@ pipeline {
                         script {
                             def scannerHome = tool 'sonarscanner'
                             withSonarQubeEnv(credentialsId: 'sonarqube') {
-                                bat "${scannerHome}\\bin\\sonar-scanner.bat -X -Dsonar.projectKey=FiberGIS_FGapi"
+                                bat "${scannerHome}\\bin\\sonar-scanner.bat -Dsonar.projectKey=FiberGIS_FGapi"
                             }
                         }
                     }
@@ -38,7 +38,7 @@ pipeline {
                     sh 'scp C:/Code/FiberGIS_FGapi/requirements.txt geouser@192.168.1.135:/usr/src/app/fibergis_fgapi/'
                     sh 'scp -r C:/Code/FiberGIS_FGapi/fgapi geouser@192.168.1.135:/usr/src/app/fibergis_fgapi/'
                     //bat 'robocopy C:/Code/FiberGIS_FGapi/fgapi geouser@192.168.1.135:/usr/src/app/fibergis_fgapi/fgapi /xf *.* /s'
-                    sh 'ssh geouser@192.168.1.135 "cd /usr/src/app/fibergis_fgapi/fgapi && rm -rf __pycache__ && rm -rf .vscode && rm -rf .git && ls -la"'
+                    sh 'ssh geouser@192.168.1.135 "cd /usr/src/app/fibergis_fgapi/fgapi && rm -rf __pycache__ && rm -rf .vscode && rm -rf .git && rm -rf .scannerwork && ls -la"'
                 }
             }
         }        
