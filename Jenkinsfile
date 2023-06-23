@@ -2,10 +2,12 @@ pipeline {
     agent any 
     stages {
         stage('Checkout') {
+            when {
+                expression { env.BRANCH_NAME == 'FiberGisPG_YJ' }
+            }            
             steps {
+                echo 'branch FiberGISPG_YJ'
                 dir('C:\\Code\\FiberGIS_FGapi\\fgapi') {
-                    // git url: 'https://x-token-auth:ATCTT3xFfGN0Qsafinng50B3bLyfebhVLppcjlJ9CUEd66XoMTEPfFBIuAK_5SIjaqK2tiVA0cuEU8_Yuu0qQjtd89QH7eQ1ECUMhXneNeSq384Ak9AYIpQ1L65_Ivf3gTrdFTJZGNT_URG-biMsZs5ItneRQtLDncjGUGVY_kyDvwt3LkeOJbY=8D7363DF@bitbucket.org/geosystems_ar/fgapi.git', branch: 'FiberGisPG_YJ'
-                    // bat "icacls . /grant \"${env.COMPUTERNAME}\\${env.USERNAME}:(OI)(CI)F\""
                     git branch: 'FiberGisPG_YJ', url: 'https://x-token-auth:ATCTT3xFfGN0Qsafinng50B3bLyfebhVLppcjlJ9CUEd66XoMTEPfFBIuAK_5SIjaqK2tiVA0cuEU8_Yuu0qQjtd89QH7eQ1ECUMhXneNeSq384Ak9AYIpQ1L65_Ivf3gTrdFTJZGNT_URG-biMsZs5ItneRQtLDncjGUGVY_kyDvwt3LkeOJbY=8D7363DF@bitbucket.org/geosystems_ar/fgapi.git'
                     script {
                         def commit_hash = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
@@ -16,7 +18,7 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube Analysis') {
+        /*stage('SonarQube Analysis') {
             steps {
                 dir('C:\\Code\\FiberGIS_FGapi\\fgapi') {
                     withSonarQubeEnv('sonarqubeserver') {
@@ -67,7 +69,7 @@ pipeline {
                     '''
                 }
             }
-        }
+        }*/
     } 
     post {
         success {
