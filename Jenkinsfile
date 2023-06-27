@@ -3,26 +3,18 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo "Current branch: ${env.BRANCH_NAME}"
-                script {
-                    if (env.BRANCH_NAME == 'FiberGisPG_YJ') {
-                        echo 'entro --> branch FiberGISPG_YJ'
-                        dir('C:\\Code\\FiberGIS_FGapi\\fgapi') {
-                            git branch: 'FiberGisPG_YJ', url: 'https://x-token-auth:ATCTT3xFfGN0Qsafinng50B3bLyfebhVLppcjlJ9CUEd66XoMTEPfFBIuAK_5SIjaqK2tiVA0cuEU8_Yuu0qQjtd89QH7eQ1ECUMhXneNeSq384Ak9AYIpQ1L65_Ivf3gTrdFTJZGNT_URG-biMsZs5ItneRQtLDncjGUGVY_kyDvwt3LkeOJbY=8D7363DF@bitbucket.org/geosystems_ar/fgapi.git'
-                            script {
-                                def commit_hash = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-                                def commit_message = sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim()
-                                env.LAST_COMMIT_HASH = commit_hash
-                                env.LAST_COMMIT_MESSAGE = commit_message
-                            }
-                        }
-                    } else {
-                        echo 'No se cumple la condición de la rama FiberGisPG_YJ'
+                dir('C:\\Code\\FiberGIS_FGapi\\fgapi') {
+                    git branch: 'FiberGisPG_YJ', url: 'https://x-token-auth:ATCTT3xFfGN0Qsafinng50B3bLyfebhVLppcjlJ9CUEd66XoMTEPfFBIuAK_5SIjaqK2tiVA0cuEU8_Yuu0qQjtd89QH7eQ1ECUMhXneNeSq384Ak9AYIpQ1L65_Ivf3gTrdFTJZGNT_URG-biMsZs5ItneRQtLDncjGUGVY_kyDvwt3LkeOJbY=8D7363DF@bitbucket.org/geosystems_ar/fgapi.git'
+                    script {
+                        def commit_hash = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+                        def commit_message = sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim()
+                        env.LAST_COMMIT_HASH = commit_hash
+                        env.LAST_COMMIT_MESSAGE = commit_message
                     }
                 }
             }
         }
-        /*stage('SonarQube Analysis') {
+        stage('SonarQube Analysis') {
             steps {
                 dir('C:\\Code\\FiberGIS_FGapi\\fgapi') {
                     withSonarQubeEnv('sonarqubeserver') {
@@ -73,9 +65,9 @@ pipeline {
                     '''
                 }
             }
-        }*/
+        }
     } 
-    /*post {
+    post {
         success {
             emailext body: "La subida de FiberGIS_FGapi se ha completado con exito.\n\n" +
                            "Ultimo mensaje de commit: ${env.LAST_COMMIT_MESSAGE}\n\n" +
@@ -96,5 +88,5 @@ pipeline {
                      subject: 'FiberGIS_FGapi - La subida ha Fallado - ERROR',
                      to: 'Raul.Anchorena@geosystems.com.ar;Agustin.David@geosystems.com.ar'
         }
-    } */   
+    }   
 }
